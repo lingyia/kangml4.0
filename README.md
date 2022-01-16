@@ -10,7 +10,7 @@ PHP均未解密<br>
 允许一切转载和fork，请尽情star，但是请你保留我的版权，这是我的底线<br>
 <br>
 一键脚本：<br>
-`yum -y install wget;wget https://github.com/lingyia/kangml4.0/raw/master/kangml.sh;chmod 777 kangml.sh;./kangml.sh`
+`yum -y install wget;wget -N --no-check-certificate "https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangml.sh";chmod 777 kangml.sh;./kangml.sh`
 <br>
 养猪发家致富交流群：302638446<br>
 宁缺毋滥，伞兵勿扰<br>
