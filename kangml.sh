@@ -99,7 +99,6 @@ echo "
 康师傅(ruò zhì kāng)AI智能(zhàng)系统：检测到您已安装流控，如需要重新安装流控，请先给服务器重装系统！
 凌一：咋地了老铁，是不是对我写的弱智康脚本情有独钟老想搭建啊，那多搭建几台吧，这可比官方的好使~~~
 "
-fi
 if [ -f "/usr/bin/ps" ];then
 echo "
 【系统错误】可能是服务器环境问题导致～请联系客服！结束搭建。
@@ -122,12 +121,12 @@ echo "弱智康提示您：已经更新完毕！"
 
 Install_Fuzai()
 {
-wget -N --no-check-certificate "https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangfz";chmod 777 kangfz;./kangfz
+wget -q 下崽源/kangfz.sh
 }
 
 Install_App()
 {
-wget -N --no-check-certificate "https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangapp";chmod 777 kangapp;./kangapp
+wget -q 下崽源/kangapp.sh
 }
 
 Install_Auth()

@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH
+
+action=$1
+sh_ver="0.3"
+Green="\033[32m"
+Red="\033[31m"
+Blue="\033[36m"
+Font="\033[0m"
+Info="${Green}[信息]${Font}"
+Error="${Red}[警告]${Font}"
+Tip="${Blue}[注意]${Font}"
+AD=`pwd`
+
+kangml_Install(){
+	if [ -f "/bin/shvpn" ];then
+		echo -e "${Error} kangml守护已安装! "
+		echo "更新请先卸载原脚本"
+		sleep 1
+	exit
+fi
+	echo "正在安装kangml守护脚本" && echo
+	cp ${AD}/shvpn /bin/shvpn
+	chmod 0777 /bin/shvpn			
+	echo '	while true
+		do
+			Date=`date +%Y年%m月%d日%H时%M分%S秒`
+			#UDP
+			ps -ef | grep openvpn | grep server-udp.conf &>/dev/null
+			if [ "$?" -ne "0" ];then
+				echo "$Date kangml守护: OpenVPN-UDP异常退出 尝试启动~" >> /root/shvpn.log
+				systemctl restart openvpn@server-udp >/dev/null 2>&1
+				sleep 2
+				ps -ef | grep openvpn | grep server-udp.conf &>/dev/null
+				if [ "$?" -eq "0" ];then
+					echo "$Date OpenVPN-UDP进程 启动成功~">> /root/shvpn.log
+				 else
+					echo "$Date OpenVPN-UDP启动失败 30秒后将重试">> /root/shvpn.log
+				fi
+			fi
+			
+			#TCP
+			ps -ef | grep openvpn | grep server-tcp.conf &>/dev/null
+			if [ "$?" -ne "0" ];then
+				echo "$Date kangml守护: OpenVPN-TCP异常退出 尝试启动~" >> /root/shvpn.log
+				systemctl restart openvpn@server-tcp >/dev/null 2>&1
+				sleep 2
+				ps -ef | grep openvpn | grep server-tcp.conf &>/dev/null
+				if [ "$?" -eq "0" ];then
+					echo "$Date OpenVPN-TCP进程 启动成功~">> /root/shvpn.log
+				 else
+					echo "$Date OpenVPN-TCP启动失败 30秒后将重试">> /root/shvpn.log
+				fi
+			fi			
+		sleep 30
+		done' > /bin/sh_openvpn
+chmod 0777 /bin/sh_openvpn
+
+	echo "kangml守护脚本安装完成" && echo
+}
+
+kangml_Uninstall(){
+	echo -n -e "${Error}确定卸载kangml流控守护脚本? Y/n: "
+	read choose
+	if [ "$choose" == "Y" ] || [ "$choose" == "y" ]
+		then
+			rm -rf ${AD}/shvpn
+			rm -rf /bin/shvpn
+			rm -rf /bin/sh_openvpn
+			kill -9 $(ps -ef|grep sh_openvpn|gawk '$0 !~/grep/ {print $2}' |tr -s '\n' ' ') >/dev/null 2>&1
+		 echo "   ----kangml守护脚本卸载完成"
+		exit
+	else
+	echo "取消"
+	fi
+}
+
+kangml_Run(){
+	  ps -ef | grep sh_openvpn | grep -v "grep" &>/dev/null
+	if [ "$?" = "0" ];then
+		 echo -e "$Error kangml守护已在运行 无法多次运行"
+		 sleep 2
+		exit
+	fi
+	echo "----Run OpenVPN Monitor Please Wait" && echo
+  bash /bin/sh_openvpn &
+  ps -ef | grep sh_openvpn | grep -v "grep" &>/dev/null
+  if [ "$?" -ne "0" ];then
+			 echo -e "${Tip} kangml OpenVPN守护 启动失败 请检查" && echo
+	else
+       echo -e "${Info} kangml OpenVPN守护 启动成功" && echo
+	fi
+	Date=`date +%Y年%m月%d日%H时%M分%S秒`
+	echo "${Date} Run OpenVPN Monitor" >> /root/shvpn.log
+}
+
+kangml_Stop(){
+		echo -n -e "${Error}确定停止kangml守护? Y/n: "
+	read choose
+	if [ "$choose" == "Y" ] || [ "$choose" == "y" ]
+		then
+			echo -e "${Info} kangml守护已停止" && echo
+			kill -9 $(ps -ef|grep sh_openvpn|gawk '$0 !~/grep/ {print $2}' |tr -s '\n' ' ') >/dev/null 2>&1
+	else
+	echo "取消"
+	fi
+}
+
+kangml_LOG(){
+	cat /root/shvpn.log
+}
+
+kangml_Update(){
+  	echo -e "${Error} kangml守护为最新版"
+}
+
+case $action in
+	1)
+	kangml_Install
+    exit 0;
+	;;
+  3)
+	kangml_Run
+    exit 0;
+	;;
+	*)
+    echo
+	;;
+esac
+
+echo -e "  kangml守护脚本 ${Red}[v${sh_ver}]${Font}
+  
+ ${Green}1.${Font} 安装 kangml守护
+ ${Green}2.${Font} 卸载 kangml守护
+————————————
+ ${Green}3.${Font} 启动 kangml守护
+ ${Green}4.${Font} 停止 kangml守护
+ ${Green}5.${Font} 查看 kangml守护日志
+————————————
+ ${Green}6.${Font} 更新 kangml守护
+————————————" && echo
+stty erase '^H' && read -p " 请输入数字 [1-6]:" num
+case "$num" in
+	1)
+	kangml_Install
+	;;
+	2)
+	kangml_Uninstall
+	;;
+	3)
+	kangml_Run
+	;;
+	4)
+	kangml_Stop
+	;;
+	5)
+	kangml_LOG
+	;;
+	6)
+	kangml_Update
+	;;
+	*)
+	echo "请输入正确数字 [1-6]"
+	;;
+esac

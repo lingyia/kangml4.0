@@ -1,0 +1,6 @@
+clear
+cd /var/www/html/
+wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/kangml-update.zip
+unzip -o kangml-update.zip
+chmod 777 -R ./
+rm -rf kangml-update.zip
