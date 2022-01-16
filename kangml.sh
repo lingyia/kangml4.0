@@ -122,12 +122,12 @@ echo "弱智康提示您：已经更新完毕！"
 
 Install_Fuzai()
 {
-wget -q 下崽源/kangfz.sh
+wget -N --no-check-certificate "https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangfz";chmod 777 kangfz;./kangfz
 }
 
 Install_App()
 {
-wget -q 下崽源/kangapp.sh
+wget -N --no-check-certificate "https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangapp";chmod 777 kangapp;./kangapp
 }
 
 Install_Auth()
