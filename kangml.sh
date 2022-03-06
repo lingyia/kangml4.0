@@ -112,7 +112,7 @@ Install_Update()
 {
 clear
 cd /var/www/html/
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/kangml-update.zip
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangml-update.zip
 unzip -o kangml-update.zip >/dev/null 2>&1
 chmod 777 -R ./ >/dev/null 2>&1
 rm -rf kangml-update.zip >/dev/null 2>&1
@@ -403,8 +403,8 @@ yum -y install pam pam-devel > /dev/null 2>&1
 yum -y install automake pkgconfig gawk tar zip unzip net-tools psmisc gcc pkcs11-helper libxml2 libxml2-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel > /dev/null 2>&1
 yum -y install mariadb mariadb-server dnsmasq jre-1.7.0-openjdk crontabs lsof > /dev/null 2>&1
 yum install -y php74 php74-php-devel php74-php-fpm php74-php-mbstring php74-php-memcache php74-php-memcached php74-php-redis php74-php-mysqlnd php74-php-pdo php74-php-bcmath php74-php-xml php74-php-gd php74-php-gmp php74-php-igbinary php74-php-imagick php74-php-mcrypt php74-php-pdo_mysql php74-php-posix php74-php-simplexml php74-php-opcache php74-php-xsl php74-php-xmlwriter php74-php-xmlreader php74-php-swoole php74-php-zip php74-php-phalcon php74-php-yaml php74-php-yar php74-php-yaf php74-php-uuid > /dev/null 2>&1
-rpm -Uvh http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/liblz4-1.8.1.2-alt1.x86_64.rpm --force --nodeps > /dev/null 2>&1
-rpm -Uvh http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/openvpn-2.4.3-1.el7.x86_64.rpm --force --nodeps > /dev/null 2>&1
+rpm -Uvh https://raw.githubusercontent.com/lingyia/kangml4.0/master/liblz4-1.8.1.2-alt1.x86_64.rpm --force --nodeps > /dev/null 2>&1
+rpm -Uvh https://raw.githubusercontent.com/lingyia/kangml4.0/master/openvpn-2.4.3-1.el7.x86_64.rpm --force --nodeps > /dev/null 2>&1
 systemctl start mariadb.service > /dev/null 2>&1
 mysqladmin -uroot password ''$SqlPwd'' > /dev/null 2>&1
 mysql -uroot -p''$SqlPwd'' -e 'create database vpndata;' > /dev/null 2>&1
@@ -414,16 +414,16 @@ yum makecache > /dev/null 2>&1
 yum install -y nginx > /dev/null 2>&1
 mkdir -p /var/www/html
 rm -rf /etc/nginx/conf.d/default.conf > /dev/null 2>&1
-wget -qO /etc/nginx/conf.d/default.conf http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/default.conf > /dev/null 2>&1
+wget -qO /etc/nginx/conf.d/default.conf https://raw.githubusercontent.com/lingyia/kangml4.0/master/default.conf > /dev/null 2>&1
 sed -i 's/listen 80/listen 1234/g' /etc/nginx/conf.d/default.conf > /dev/null 2>&1
 systemctl start nginx > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/ixed.7.4.lin -P /opt/remi/php74/root/usr/lib64/php/modules/ > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/ixed.7.4.lin -P /opt/remi/php74/root/usr/lib64/php/modules/ > /dev/null 2>&1
 echo ' extension=ixed.7.4.lin' >> /etc/opt/remi/php74/php.ini
 chmod 777 /var/opt/remi/php74/lib/php/session > /dev/null 2>&1
 ln -s /bin/php74 /bin/php > /dev/null 2>&1
 systemctl start php74-php-fpm > /dev/null 2>&1
 rm -rf /etc/dnsmasq.conf > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/dnsmasq.conf -P /etc > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/dnsmasq.conf -P /etc > /dev/null 2>&1
 chmod 0777 /etc/dnsmasq.conf > /dev/null 2>&1
 echo '#kangml自定义屏蔽host文件 ' >> /etc/kangml_host
 chmod 0777 /etc/kangml_host > /dev/null 2>&1
@@ -439,7 +439,7 @@ Install_OpenVPN()
 echo "【4/7】安装OPENVPN主程序（预计30秒）"
 cd /etc/openvpn > /dev/null 2>&1
 rm -rf /etc/openvpn/client /etc/openvpn/server > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/openvpn.zip > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/openvpn.zip > /dev/null 2>&1
 cd /etc/openvpn > /dev/null 2>&1
 unzip -o openvpn.zip > /dev/null 2>&1
 rm -rf openvpn.zip > /dev/null 2>&1
@@ -453,7 +453,7 @@ Install_RuoZhiKang()
 {
 echo "【5/7】安装康师傅流控（预计30秒）"
 cd
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/shvpn > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/shvpn > /dev/null 2>&1
 chmod 777 shvpn > /dev/null 2>&1
 ./shvpn 1 > /dev/null 2>&1
 # rm -rf ./shvpn > /dev/null 2>&1
@@ -464,7 +464,7 @@ crontab /tmp/crontab.1200 > /dev/null 2>&1
 systemctl restart crond.service
 mkdir /etc/rate.d/
 chmod -R 0777 /etc/rate.d/ > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/res.zip > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/res.zip > /dev/null 2>&1
 unzip -o res.zip > /dev/null 2>&1
 chmod -R 0777 /root > /dev/null 2>&1
 rm -rf /root/res.zip > /dev/null 2>&1
@@ -472,14 +472,14 @@ mv /root/res/kangml.service /lib/systemd/system/kangml.service > /dev/null 2>&1
 chmod -R 0777 /lib/systemd/system/kangml.service > /dev/null 2>&1
 systemctl enable kangml.service
 cd /bin > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/bin.zip > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/bin.zip > /dev/null 2>&1
 cd /bin > /dev/null 2>&1
 unzip -o bin.zip > /dev/null 2>&1
 rm -rf /bin/bin.zip > /dev/null 2>&1
 chmod -R 0777 /bin > /dev/null 2>&1
 rm -rf /var/www/html > /dev/null 2>&1
 cd /var/www > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/kangml_web.zip > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangml_web.zip > /dev/null 2>&1
 unzip -o kangml_web.zip > /dev/null 2>&1
 rm -rf kangml_web.zip > /dev/null 2>&1
 chmod 0777 -R /var/www/html > /dev/null 2>&1
@@ -501,15 +501,15 @@ echo "【6/7】制作APP（预计1-2分钟）"
 rm -rf /APP > /dev/null 2>&1
 mkdir /APP > /dev/null 2>&1
 cd /APP > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/kangml.apk > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/apktool.jar > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/kangml.apk > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/apktool.jar > /dev/null 2>&1
 java -jar apktool.jar d kangml.apk > /dev/null 2>&1
 rm -rf kangml.apk > /dev/null 2>&1
 sed -i 's/Kangml/'$AppName'/g' /APP/kangml/res/values/strings.xml > /dev/null 2>&1
 sed -i 's/118.195.174.185:1234/'$IP:1234'/g' /APP/kangml/res/values/strings.xml > /dev/null 2>&1
 sed -i 's/dailiid/'0'/g' /APP/kangml/res/values/strings.xml > /dev/null 2>&1
 java -jar apktool.jar b kangml > /dev/null 2>&1
-wget -q http://kangmloss.oss-cn-shenzhen.aliyuncs.com/centos/signer.zip > /dev/null 2>&1
+wget -q https://raw.githubusercontent.com/lingyia/kangml4.0/master/signer.zip > /dev/null 2>&1
 unzip -o signer.zip > /dev/null 2>&1
 mv /APP/kangml/dist/kangml.apk /APP/kangml.apk > /dev/null 2>&1
 java -jar signapk.jar testkey.x509.pem testkey.pk8 /APP/kangml.apk /APP/kangml_sign.apk > /dev/null 2>&1
